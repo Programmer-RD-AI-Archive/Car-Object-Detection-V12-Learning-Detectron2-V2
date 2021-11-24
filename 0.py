@@ -26,17 +26,17 @@ PROJECT_NAME = 'Car-Object-Detection-V12-Learning-Detectron2-V2'
 
 data = pd.read_csv('data.csv')
 info = data.iloc[0]
-img = cv2.imread(info['image'])
-xmin, xmax, ymin, ymax = info['XMin'], info['XMax'], info['YMin'], info['YMax']
+img = cv2.imread('./data/' + info['image'])
+xmin, xmax, ymin, ymax = info['xmin'], info['xmax'], info['ymin'], info['ymax']
 x = xmin
 y = ymin
 w = xmax - xmin
 h = ymax - ymin
-crop = img[x:x+w, y:y+h]
-plt.figure(figsize=(12, 6))
-plt.imshow(crop)
-plt.savefig('0.png')
-plt.close()
+# crop = img[y:y+h,x:x+w]
+# plt.figure(figsize=(12, 6))
+# plt.imshow(crop)
+# plt.savefig('0.png')
+# plt.close()
 cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 2)
 plt.figure(figsize=(12, 6))
 plt.imshow(img)
@@ -90,23 +90,23 @@ metrics = inference_on_dataset(trainer.model, data_loader, evaluator)
 print(metrics)
 img = cv2.imread('./data/' + info['image'])
 pred = predictor(img)
-v = Visualizer(img[:,:,::-1])
+v = Visualizer(img[:, :, ::-1])
 v.draw_instance_predictions(pred)
-img = v.get_image()[:,:,::-1]
+img = v.get_image()[:, :, ::-1]
 plt.figure(figsize=(12, 6))
 plt.imshow(img)
 plt.savefig('./2.png')
-torch.save(cfg,'cfg.pt')
-torch.save(cfg,'cfg.pth')
-torch.save(predictor,'predictor.pt')
-torch.save(predictor,'predictor.pth')
-torch.save(evaluator,'evaluator.pt')
-torch.save(evaluator,'evaluator.pth')
-torch.save(v,'img.pt')
-torch.save(v,'img.pth')
-torch.save(model,'model.pt')
-torch.save(model,'model.pth')
-torch.save(labels,'labels.pt')
-torch.save(labels,'labels.pth')
-torch.save(metrics,'metrics.pt')
-torch.save(metrics,'metrics.pth')
+torch.save(cfg, 'cfg.pt')
+torch.save(cfg, 'cfg.pth')
+torch.save(predictor, 'predictor.pt')
+torch.save(predictor, 'predictor.pth')
+torch.save(evaluator, 'evaluator.pt')
+torch.save(evaluator, 'evaluator.pth')
+torch.save(v, 'img.pt')
+torch.save(v, 'img.pth')
+torch.save(model, 'model.pt')
+torch.save(model, 'model.pth')
+torch.save(labels, 'labels.pt')
+torch.save(labels, 'labels.pth')
+torch.save(metrics, 'metrics.pt')
+torch.save(metrics, 'metrics.pth')
