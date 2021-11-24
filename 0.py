@@ -37,11 +37,11 @@ h = ymax - ymin
 # plt.imshow(crop)
 # plt.savefig('0.png')
 # plt.close()
-cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 2)
-plt.figure(figsize=(12, 6))
-plt.imshow(img)
-plt.savefig('1.png')
-plt.close()
+# cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 2)
+# plt.figure(figsize=(12, 6))
+# plt.imshow(img)
+# plt.savefig('1.png')
+# plt.close()
 
 
 def load_data():
@@ -65,9 +65,9 @@ def load_data():
 
 labels = ['car']
 DatasetCatalog.register('data', lambda: load_data())
-data = Metadata.get('data').set_classes(labels)
+metadata = MetadataCatalog.get('data').set(thing_classes=labels)
+model = "COCO-Detection/faster_rcnn_R_50_C4_3x.yaml"
 
-model = ""
 cfg = get_cfg()
 cfg.merge_from_file(model_zoo.get_config_file(model))
 cfg.DATASETS.TRAIN = ('data')
@@ -76,7 +76,7 @@ cfg.SOLVER.STEPS = []
 cfg.SOLVER.MAX_ITER = 1250
 cfg.SOLVER.IMS_PER_BATCH = 2
 cfg.MODEL.ROI_HEADS.BATCH_SIZE_PER_IMAGE = 128
-cfg.DATALOADE.NUM_WORKERS = 2
+cfg.DATALOADER.NUM_WORKERS = 2
 cfg.MODEL.BASE_LR = 0.00025
 cfg.MODEL.ROI_HEADS.NUM_CLASSES = len(labels)
 cfg.MODEL.WEIGHTS = model_zoo.get_checkpoint_url(model)
